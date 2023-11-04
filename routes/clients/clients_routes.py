@@ -76,13 +76,13 @@ async def get_client_by_id_rendered(identification_type: str = Path(min_length=1
                                                                                         identification_type,
                                                                                         identification, True)
     if len(appointments) == 0:
-        return {"message": "No tienes citas programadas"}
+        return {"api_message": "No tienes citas programadas"}
 
     build_appointment_message(appointments, "agendadas")
 
     if appointments is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado con los parametros de busqueda")
-    return {"message": build_appointment_message(appointments,"agendadas")}
+    return {"api_message": build_appointment_message(appointments,"agendadas")}
 
 
 @router.get("/identification/{identification_type}/{identification}/available/render",
@@ -94,11 +94,11 @@ async def get_client_by_id_rendered(identification_type: str = Path(min_length=1
                                                                                         identification_type,
                                                                                         identification)
     if len(appointments) == 0:
-        return {"message": "No tienes citas disponibles"}
+        return {"api_message": "No tienes citas disponibles"}
 
     if appointments is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado con los parametros de busqueda")
-    return {"message": build_appointment_message(appointments, "disponibles")}
+    return {"api_message": build_appointment_message(appointments, "disponibles")}
 
 
 @router.get("/identification/{identification_type}/{identification}/available/selected/{appointment_index}/render",
@@ -113,11 +113,11 @@ async def get_client_by_id_rendered(identification_type: str = Path(min_length=1
     selected_appointment = appointments[appointment_index - 1]
 
     if selected_appointment is None:
-        return {"message": "No tienes citas disponibles"}
+        return {"api_message": "No tienes citas disponibles"}
 
     if appointments is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado con los parametros de busqueda")
-    return {"message": build_appointment_message_one(selected_appointment, "seleccionada"),
+    return {"api_message": build_appointment_message_one(selected_appointment, "seleccionada"),
             "appointment_id": selected_appointment.id}
 
 
