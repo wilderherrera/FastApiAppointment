@@ -30,4 +30,4 @@ async def get_client_by_id_rendered(appointment_id: int = Path(min=1),
     appointment.taken = True
     db.add(appointment)
     db.commit()
-    return {"message": "Cita confirmada exitosamente"}
+    return {"api_message": "Cita confirmada exitosamente"}
