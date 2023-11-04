@@ -22,9 +22,9 @@ async def get_all_appointment(db: Session = Depends(get_db)):
     return repository.appointment.get_all_appointment(db)
 
 
-@router.get("/{appointment_id}/confirm/render",
-            status_code=status.HTTP_200_OK)
-async def get_client_by_id_rendered(appointment_id: int = Path(min=1),
+@router.post("/{appointment_id}/confirm/render",
+             status_code=status.HTTP_200_OK)
+async def post_client_by_id_rendered(appointment_id: int = Path(min=1),
                                     db: Session = Depends(get_db)):
     appointment = repository.appointment.get_appointment_by_id(db, appointment_id)
     appointment.taken = True
