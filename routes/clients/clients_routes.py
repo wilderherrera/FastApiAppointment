@@ -26,7 +26,6 @@ router = APIRouter()
 
 def build_appointment_message_one(appointment, message):
     result = f"Estas son tus citas agendadas {message}:\n"
-    result += f"Cita 1:\n"
     result += f"  Fecha de la cita: {datetime.fromisoformat(str(appointment.appointment_date)).strftime('%A, %d de %B de %Y a las %I:%M %p')}\n"
     result += f"  Nombre del doctor: {appointment.doctor_name}\n"
     result += f"  Razón de la cita: {appointment.reason}\n\n"
@@ -37,11 +36,9 @@ def build_appointment_message(appointments, message):
     result = f"Estas son tus citas {message}:\n"
 
     for index, cita in enumerate(appointments, start=1):
-        result += f"Cita {index}:\n"
-        result += f"  ID: {cita.id}\n"
-        result += f"  Fecha de la cita: {datetime.fromisoformat(str(cita.appointment_date)).strftime('%A, %d de %B de %Y a las %I:%M %p')}\n"
-        result += f"  Nombre del doctor: {cita.doctor_name}\n"
-        result += f"  Razón de la cita: {cita.reason}\n\n"
+        result += f"*{index}. Fecha de la cita:* {datetime.fromisoformat(str(cita.appointment_date)).strftime('%A, %d de %B de %Y a las %I:%M %p')}\n"
+        result += f"*Nombre del doctor:* {cita.doctor_name}\n"
+        result += f"*Razón de la cita:* {cita.reason}\n\n"
     return result
 
 
