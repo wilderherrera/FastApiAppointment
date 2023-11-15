@@ -1,11 +1,9 @@
-from fastapi import FastAPI, APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 
 import repository.appointment
 from database import SessionLocal
 from starlette import status
-
-app = FastAPI()
 router = APIRouter()
 
 

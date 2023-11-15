@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
+from datetime import date, datetime
 from typing import Union
-from datetime import date,datetime
+
+from pydantic import BaseModel, Field
 
 
 class Appointment(BaseModel):
@@ -8,6 +9,7 @@ class Appointment(BaseModel):
     client_id: int
     appointment_date: Union[datetime, None]
     doctor_name: str
+    notified: bool = False
     reason: str
 
     class Config:
@@ -17,6 +19,7 @@ class Appointment(BaseModel):
 class Client(BaseModel):
     id: int = Field(gt=0)
     first_name: str = Field(min_length=3)
+    cellphone: str
     identification: str = Field(min_length=3)
     identification_type: str
     date_of_birth: Union[date, None] = None

@@ -7,8 +7,8 @@ Create Date: 2023-11-03 13:38:49.550900
 """
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 # revision identifiers, used by Alembic.
 from faker import Faker
 
@@ -27,7 +27,7 @@ def upgrade():
         sa.Column('email', sa.String(100)),
         sa.Column('identification', sa.String(100)),
         sa.Column('identification_type', sa.String(100)),
-        sa.Column('phone_number', sa.String(100)),
+        sa.Column('cellphone', sa.String(100)),
         sa.Column('date_of_birth', sa.Date),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now())
     )
@@ -36,6 +36,7 @@ def upgrade():
         'appointments',
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('taken', sa.Boolean, default=False),
+        sa.Column('notified', sa.Boolean, default=False),
         sa.Column('client_id', sa.Integer, sa.ForeignKey('clients.id'), nullable=False),
         sa.Column('appointment_date', sa.DateTime, nullable=False),
         sa.Column('doctor_name', sa.String(100), nullable=False),
@@ -51,8 +52,8 @@ def upgrade():
 
         conn.execute(
             sa.text(
-                "INSERT INTO clients (first_name, last_name, email, identification, identification_type, phone_number, date_of_birth) "
-                "VALUES (:first_name, :last_name, :email, :identification, :identification_type, :phone_number, :date_of_birth)"
+                "INSERT INTO clients (first_name, last_name, email, identification, identification_type, cellphone, date_of_birth) "
+                "VALUES (:first_name, :last_name, :email, :identification, :identification_type, :cellphone, :date_of_birth)"
             ),
             {
                 "first_name": fake.first_name(),
@@ -60,7 +61,7 @@ def upgrade():
                 "email": fake.email(),
                 "identification": fake.ssn(),
                 "identification_type": identification_type,  # Usar el valor aleatorio
-                "phone_number": fake.phone_number(),
+                "cellphone": fake.phone_number(),
                 "date_of_birth": fake.date_of_birth(minimum_age=18, maximum_age=90),
             }
         )

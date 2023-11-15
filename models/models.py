@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean,Date, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Date, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -10,6 +10,7 @@ class Client(Base):
     email = Column(String, unique=True, index=True)
     identification = Column(String, unique=True, index=True)
     identification_type = Column(String)
+    cellphone = Column(String)
     first_name = Column(String)
     last_name = Column(String)
     appointments = relationship("Appointment", back_populates="client")
@@ -22,5 +23,6 @@ class Appointment(Base):
     appointment_date = Column(Date)
     doctor_name = Column(String)
     taken = Column(Boolean)
+    notified = Column(Boolean)
     reason = Column(String)
     client = relationship("Client", back_populates="appointments")

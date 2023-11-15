@@ -1,15 +1,19 @@
-from fastapi import Depends, FastAPI, APIRouter, Path, HTTPException
+import locale
+from datetime import datetime
 
-import repository.client
+from fastapi import Depends, APIRouter, Path, HTTPException
+from sqlalchemy.orm import Session
+from starlette import status
+
 import repository.appointment
+import repository.client
 import squemas.squemas
 from database import SessionLocal
-from starlette import status
-from sqlalchemy.orm import Session
-from datetime import datetime
-import locale
+from utils.utils import Utils
 
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+
+utils = Utils()
 
 
 def get_db():
@@ -20,13 +24,12 @@ def get_db():
         db.close()
 
 
-app = FastAPI()
 router = APIRouter()
 
 
 def build_appointment_message_one(appointment, message):
     result = f"Esta es tu cita {message}:\n"
-    result += f"*Fecha de la cita:* {datetime.fromisoformat(str(appointment.appointment_date)).strftime('%A, %d de %B de %Y a las %I:%M %p')}\n"
+    result += f"*Fecha de la cita:* {utils.format_date(appointment.appointment_date)}\n"
     result += f"*Nombre del doctor:* {appointment.doctor_name}\n"
     result += f"*Razón de la cita:* {appointment.reason}\n\n"
     return result
@@ -79,7 +82,7 @@ async def get_client_by_id_rendered(identification_type: str = Path(min_length=1
 
     if appointments is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado con los parametros de busqueda")
-    return {"api_message": build_appointment_message(appointments,"agendadas")}
+    return {"api_message": build_appointment_message(appointments, "agendadas")}
 
 
 @router.get("/identification/{identification_type}/{identification}/available/render",
