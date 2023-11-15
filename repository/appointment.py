@@ -18,7 +18,7 @@ def get_all_appointment_available(db: Session) -> list[models.Appointment]:
 
 def get_all_appointment_taken_and_notification_pending(db: Session) -> list[models.Appointment]:
     return db.query(models.Appointment).filter(models.Appointment.taken).filter(
-        or_(models.Appointment.notified == False, models.Appointment.notified is None)).all()
+        or_(models.Appointment.notified == False, models.Appointment.notified == None)).all()
 
 
 def get_all_appointments_by_client_identification(db: Session, identification_type: str, identification: str,
