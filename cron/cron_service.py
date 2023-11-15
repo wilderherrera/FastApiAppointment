@@ -17,8 +17,8 @@ class CronService:
         print(appointments)
         for appointment in appointments:
             self.whatsapp_channel.send(appointment.client, "remember_date",
-                                       [appointment.client.first_name + " " + appointment.client.last_name,
-                                        appointment.doctor_name, utils.format_date(appointment.appointment_date)])
+                                       [
+                                           appointment.doctor_name, utils.format_date(appointment.appointment_date)])
             appointment.notified = True
             self.db.add(appointment)
             self.db.commit()
