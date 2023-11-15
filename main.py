@@ -18,7 +18,7 @@ cron_service = CronService()
 
 
 @app.on_event("startup")
-@repeat_every(seconds=120, wait_first=True)
+@repeat_every(seconds=5, wait_first=True)
 def check_client_alerts():
     cron_service.check_client_alerts()
 
