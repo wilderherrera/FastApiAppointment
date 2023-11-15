@@ -31,8 +31,9 @@ class WhatsappMessage:
         }
 
     def send(self, client: models.models.Client, template_name, variables: list):
-        requests.post(
+        response = requests.post(
             settings.WHATSAPP_START_CONVERSATION_URL,
             json=self.get_body(client, template_name, variables),
             headers=self.get_headers()
         )
+        print(response.json())
